@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pembelajaran Content Security Policy (CSP)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   style-src 'self';
+                   script-src 'none';
+                   media-src 'self';
+                   font-src 'self';
+                   connect-src 'self';
+                   img-src 'self';">
+    <link rel="stylesheet" href="style.css">
+    
+    <!--
+        VALUES:
+        'self'      - anything from the same origin
+        data:       - data-uri (base64 images)
+        gap:        - phonegap and cordova used by plugins on iOS
+        ws:         - web sockets
+        *           - anything except data: and blobs
+        filesystem: - access things on the local filesystem
+        blob:       - allow Binary Large Objects
+        mediastream:- allow streamed media
+        content:    - used by Cordova
+        'none'      - prevent anything in the category
+        https:      - anything over https://
+        *.example.com - anything from any subdomain of example.com
+        'unsafe-inline' - inline source elements like style attribute, onclick, or script tags
+        'unsafe-eval' - allow javascript eval()
+    -->
+</head>
+<body>
+    <header>
+        <h1>Pembelajaran Content Security Policy (CSP)</h1>
+    </header>
+    
+    <main>
+        <h2>Apa itu Content Security Policy (CSP)?</h2>
+        <p>Content Security Policy (CSP) adalah fitur keamanan yang membantu mencegah berbagai jenis serangan seperti Cross-Site Scripting (XSS) dan injeksi data. Dengan CSP, Anda dapat mengontrol sumber daya apa saja yang dapat dimuat dan dijalankan oleh halaman web.</p>
+
+        <h2>Menerapkan CSP di Halaman Web</h2>
+        <p>Untuk menerapkan CSP, Anda dapat menambahkan tag <code>&lt;meta http-equiv="Content-Security-Policy"&gt;</code> di dalam bagian <code>&lt;head&gt;</code> dokumen HTML Anda. Berikut ini adalah contoh penerapan CSP di halaman ini:</p>
+        <pre>
+        &lt;meta http-equiv="Content-Security-Policy"
+                content="default-src 'self';
+                style-src 'self';
+                script-src 'none';
+                media-src 'self';
+                font-src 'self';
+                connect-src 'self';
+                img-src 'self';";
+        </pre>
+
+        <h2>Penjelasan Tentang Penggunaan Wildcard (*) dalam CSP</h2>
+        <p>Pada contoh di atas, terdapat penggunaan simbol <code>*</code> (wildcard) di beberapa bagian kebijakan CSP, seperti <code>media-src *</code>, <code>font-src *</code>, dan <code>connect-src *</code>. Wildcard <code>*</code> memungkinkan halaman untuk memuat sumber daya dari <strong>sumber mana pun</strong>, tanpa batasan asal. Meskipun ini memberikan fleksibilitas dalam memuat konten, penggunaan wildcard juga berisiko karena membuka kemungkinan muatan dari sumber yang tidak terpercaya.</p>
+
+        <h2>Rekomendasi: Gunakan 'self' atau 'none' untuk Keamanan Lebih Tinggi</h2>
+        <p>Untuk keamanan yang lebih baik, sebaiknya hindari penggunaan <code>*</code> dan gunakan <code>'self'</code> atau <code>'none'</code> sebagai alternatif, tergantung kebutuhan Anda:</p>
+        <ul>
+            <li><code>'self'</code>: Mengizinkan pemuatan sumber daya hanya dari <strong>origin yang sama</strong> (domain yang sama) dengan halaman tersebut. Misalnya, <code>media-src 'self'</code> hanya mengizinkan pemuatan media dari server yang sama, sehingga mencegah sumber dari domain lain yang mungkin tidak aman.</li>
+            <li><code>'none'</code>: Mencegah semua pemuatan sumber daya dari kategori tertentu. Misalnya, <code>script-src 'none'</code> memastikan bahwa tidak ada JavaScript yang dimuat sama sekali, yang dapat mengurangi risiko serangan XSS jika JavaScript tidak diperlukan.</li>
+        </ul>
+
+        <h2>Contoh CSP yang Lebih Aman</h2>
+        <p>Berikut adalah contoh CSP yang lebih aman dengan menghindari wildcard <code>*</code> dan menggantinya dengan <code>'self'</code> dan <code>'none'</code>:</p>
+        <pre>
+        &lt;meta http-equiv="Content-Security-Policy"
+            content="default-src 'self' data:;
+                    style-src 'self' 'unsafe-inline';
+                    script-src 'none';
+                    media-src 'self';
+                    font-src 'self';
+                    connect-src 'self';
+                    img-src 'self' data:;"&gt;
+        </pre>
+        
+        <h2>Penjelasan Nilai CSP</h2>
+        <p>Berikut ini adalah penjelasan singkat tentang beberapa nilai yang umum digunakan dalam CSP:</p>
+        <ul>
+            <li><code>'self'</code> - Mengizinkan sumber daya dari asal yang sama.</li>
+            <li><code>data:</code> - Mengizinkan URI data, seperti gambar dalam format base64.</li>
+            <li><code>gap:</code> - Digunakan oleh plugin PhoneGap dan Cordova.</li>
+            <li><code>ws:</code> - Mengizinkan koneksi WebSocket.</li>
+            <li><code>filesystem:</code> - Memberikan akses ke sistem file lokal.</li>
+            <li><code>'unsafe-inline'</code> - Mengizinkan elemen inline seperti atribut style.</li>
+            <li><code>'none'</code> - Memblokir semua sumber daya dalam kategori ini.</li>
+        </ul>
+        
+        <h2>Pelajari Lebih Lanjut</h2>
+        <p>Untuk panduan lebih lengkap, lihat referensi resmi CSP: <a href="https://content-security-policy.com/">https://content-security-policy.com/</a></p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Pembelajaran CSP. Semua Hak Dilindungi.</p>
+    </footer>
+</body>
+</html>
